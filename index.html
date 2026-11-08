@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fridge Book</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="apple-mobile-web-app-title" content="Fridge Book">
+<meta name="application-name" content="Fridge Book">
+<meta name="theme-color" content="#0A6B5B">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<script>
+  // Fridge Book lives on claude.ai; this page only gives it a Home Screen icon.
+  // The artifact id travels after "#" (never sent to this site's server), e.g. /#4wogzCYe4AsUrEUgbd544h
+  (function () {
+    var m = /^#([A-Za-z0-9_-]{8,64})$/.exec(location.hash);
+    var target = m ? 'https://claude.ai/artifact/' + m[1] : '';
+    window.FRIDGE_BOOK = target;
+    if (!target) { document.documentElement.setAttribute('data-missing', ''); return; }
+    if (/[?&]go(=|&|$)/.test(location.search) || navigator.standalone === true) {
+      document.documentElement.setAttribute('data-go', '');
+      location.replace(target);
+      return;
+    }
+    // Add to Home Screen saves the address shown now, so the icon goes straight to Fridge Book.
+    try { history.replaceState(null, '', location.pathname + '?go' + location.hash); } catch (e) {}
+  })();
+</script>
+<style>
+  :root {
+    --bg: #EDF3F1; --card: #FFFFFF; --ink: #0E1D1B; --muted: #546562; --line: #D5E2DE;
+    --accent: #0A6B5B; --on-accent: #F6F4EC;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0B1412; --card: #14211E; --ink: #E2EDEA; --muted: #8EA29E; --line: #24342F; --accent: #47C3AC; --on-accent: #0B1412; }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    min-height: 100vh; background: var(--bg); color: var(--ink);
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", sans-serif;
+    display: flex; justify-content: center;
+    padding: max(32px, env(safe-area-inset-top)) 16px max(32px, env(safe-area-inset-bottom));
+  }
+  main { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 22px; }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand img { width: 64px; height: 64px; border-radius: 15px; flex: none; }
+  h1 { margin: 0; font-size: 32px; line-height: 1.05; letter-spacing: -0.02em; font-weight: 800; }
+  .sub { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+  .open {
+    display: block; text-align: center; text-decoration: none; font-weight: 700; font-size: 17px;
+    background: var(--accent); color: var(--on-accent); border-radius: 14px; padding: 15px 18px;
+  }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px 18px 16px; }
+  h2 { margin: 0 0 10px; font-size: 17px; }
+  ol { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; }
+  b { font-weight: 650; }
+  .note { margin: 12px 0 0; color: var(--muted); font-size: 14px; }
+  .going, .missing { display: none; margin: 0; color: var(--muted); }
+  [data-go] .setup, [data-missing] .setup, [data-missing] .open { display: none; }
+  [data-go] .going, [data-missing] .missing { display: block; }
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">
+    <img src="apple-touch-icon.png" alt="">
+    <div>
+      <h1>Fridge Book</h1>
+      <p class="sub">冰箱账本 · Vorratsbuch</p>
+    </div>
+  </div>
+  <a class="open" id="open" href="#">Open Fridge Book</a>
+  <p class="going" id="going">Opening Fridge Book…</p>
+  <p class="missing" id="missing">This link is incomplete. Use the full Fridge Book link you were sent.</p>
+  <section class="card setup">
+    <h2 id="how">Put it on your Home Screen</h2>
+    <ol id="steps"></ol>
+    <p class="note" id="note"></p>
+  </section>
+</main>
+<script>
+  (function () {
+    var T = {
+      en: {
+        open: 'Open Fridge Book', going: 'Opening Fridge Book…', how: 'Put it on your Home Screen',
+        missing: 'This link is incomplete. Use the full Fridge Book link you were sent.',
+        steps: ['Tap Safari’s menu button (<b>≡</b> or <b>⋯</b>), then <b>Share</b>.', 'Tap <b>Add to Home Screen</b> (it may be under <b>View More</b>).', 'Turn off <b>Open as Web App</b>, then tap <b>Add</b>.'],
+        note: 'The fridge icon then opens Fridge Book in Safari, where you’re already signed in to Claude.'
+      },
+      zh: {
+        open: '打开冰箱账本', going: '正在打开冰箱账本…', how: '添加到主屏幕',
+        missing: '这个链接不完整，请使用完整的冰箱账本链接。',
+        steps: ['点 Safari 的菜单按钮（<b>≡</b> 或 <b>⋯</b>），再点<b>共享</b>。', '点<b>添加到主屏幕</b>（可能在<b>查看更多</b>里）。', '关掉<b>作为网页 App 打开</b>，然后点<b>添加</b>。'],
+        note: '以后点冰箱图标，就会在 Safari 里打开冰箱账本。你在 Safari 里已经登录了 Claude。'
+      },
+      de: {
+        open: 'Vorratsbuch öffnen', going: 'Vorratsbuch wird geöffnet …', how: 'Auf den Home-Bildschirm legen',
+        missing: 'Dieser Link ist unvollständig. Bitte nutze den vollständigen Vorratsbuch-Link.',
+        steps: ['Tippe in Safari auf die Menütaste (<b>≡</b> oder <b>⋯</b>) und dann auf <b>Teilen</b>.', 'Tippe auf <b>Zum Home-Bildschirm</b> (eventuell unter <b>Mehr anzeigen</b>).', 'Schalte <b>Als Web-App öffnen</b> aus und tippe auf <b>Hinzufügen</b>.'],
+        note: 'Das Kühlschrank-Symbol öffnet das Vorratsbuch dann in Safari, wo du schon bei Claude angemeldet bist.'
+      }
+    };
+    var langs = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en']);
+    var pick = 'en';
+    for (var i = 0; i < langs.length; i++) {
+      var l = String(langs[i]).toLowerCase();
+      if (l.indexOf('zh') === 0) { pick = 'zh'; break; }
+      if (l.indexOf('de') === 0) { pick = 'de'; break; }
+      if (l.indexOf('en') === 0) { pick = 'en'; break; }
+    }
+    var t = T[pick];
+    document.documentElement.lang = pick === 'zh' ? 'zh-Hans' : pick;
+    var open = document.getElementById('open');
+    open.textContent = t.open;
+    if (window.FRIDGE_BOOK) open.href = window.FRIDGE_BOOK;
+    document.getElementById('going').textContent = t.going;
+    document.getElementById('missing').textContent = t.missing;
+    document.getElementById('how').textContent = t.how;
+    document.getElementById('steps').innerHTML = t.steps.map(function (s) { return '<li>' + s + '</li>'; }).join('');
+    document.getElementById('note').textContent = t.note;
+  })();
+</script>
+</body>
+</html>
